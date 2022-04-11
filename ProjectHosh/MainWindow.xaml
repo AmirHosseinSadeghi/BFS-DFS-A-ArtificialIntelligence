@@ -12,10 +12,10 @@
         <Grid x:Name="Map" Margin="0,0,0,200">
 
         </Grid>
-        <Button Content="Generate Pattern" FontSize="18" HorizontalAlignment="Left" Margin="14,457,0,0" VerticalAlignment="Top" Height="60" Width="150"/>
-        <Button Content="Handy Pattern" FontSize="18" HorizontalAlignment="Left" Margin="14,542,0,0" VerticalAlignment="Top" Height="60" Width="150"/>
-        <Button Content="Clear" FontSize="20" HorizontalAlignment="Left" Margin="174,542,0,0" VerticalAlignment="Top" Height="60" Width="80"/>
-        <Button Content="Search" FontSize="20" HorizontalAlignment="Left" Margin="174,457,0,0" VerticalAlignment="Top" Height="60" Width="80"/>
+        <Button x:Name="GeneratePatternbtn" Content="Generate Pattern" FontSize="18" HorizontalAlignment="Left" Margin="14,457,0,0" VerticalAlignment="Top" Height="60" Width="150" Click="GeneratePatternbtn_Click"/>
+        <Button x:Name="HandyPatternbtn" Content="Handy Pattern" FontSize="18" HorizontalAlignment="Left" Margin="14,542,0,0" VerticalAlignment="Top" Height="60" Width="150"/>
+        <Button x:Name="Clearbtn" Content="Clear" FontSize="20" HorizontalAlignment="Left" Margin="174,542,0,0" VerticalAlignment="Top" Height="60" Width="80" Click="Clearbtn_Click"/>
+        <Button x:Name="Searchbtn" Content="Search" FontSize="20" HorizontalAlignment="Left" Margin="174,457,0,0" VerticalAlignment="Top" Height="60" Width="80"/>
         <Label Content="Select Algoritm" FontSize="20" HorizontalAlignment="Left" Margin="277,457,0,0" VerticalAlignment="Top" Height="41" Width="144"/>
         <ComboBox FontSize="25" HorizontalAlignment="Left" Margin="277,503,0,0" VerticalAlignment="Top" Width="144" Height="41">
             <ComboBoxItem Content="BFS" IsSelected="True"/>

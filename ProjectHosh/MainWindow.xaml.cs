@@ -104,16 +104,62 @@ namespace ProjectHosh
                     Labels[i, j] = lb;
                 }
             }
-            ///////////////////////////////////////اعمال شرط اینکه فقط اگز خونه ایی سفید بود رنگشو تغییر بده.
-            //Random random = new Random();
-            //Labels[random.Next(1, 19), random.Next(1, 29)].Background = new SolidColorBrush(Colors.Green);
-            //Labels[random.Next(1, 19), random.Next(1, 29)].Background = new SolidColorBrush(Colors.Red);
-            //int t = random.Next(0, 503);// 600-30-30-18-18-2 = 502
-            //while (t >= 0)
-            //{
-            //    Labels[random.Next(1, 19), random.Next(1, 29)].Background = new SolidColorBrush(Colors.Black);
-            //    t--;
-            //}
+        }
+
+        private void GeneratePatternbtn_Click(object sender, RoutedEventArgs e)
+        {
+            Clear();
+
+            Random random = new Random();
+            int i = random.Next(1, 19);
+            int j = random.Next(1, 29);
+            Labels[i, j].Background = new SolidColorBrush(Colors.Green);
+
+            while (true)
+            {
+                i = random.Next(1, 19);
+                j = random.Next(1, 29);
+                var backgroundColor = Labels[i, j].Background;
+                var color = ((SolidColorBrush)backgroundColor).Color.ToString();
+                if (color == new SolidColorBrush(Colors.White).ToString())
+                {
+                    Labels[i, j].Background = new SolidColorBrush(Colors.Red);
+                    break;
+                }
+
+            }
+
+            int t = random.Next(0, 503);// 600-30-30-18-18-2 = 502
+            while (t >= 0)
+            {
+                i = random.Next(1, 19);
+                j = random.Next(1, 29);
+                var backgroundColor = Labels[i, j].Background;
+                var color = ((SolidColorBrush)backgroundColor).Color.ToString();
+                if (color == new SolidColorBrush(Colors.White).ToString())
+                {
+                    Labels[i, j].Background = new SolidColorBrush(Colors.Black);
+                    t--;
+                }
+            }
+        }
+        public void Clear()
+        {
+            for (int i = 1; i < 19; i++)
+            {
+                for (int j = 1; j < 29; j++)
+                {
+                    var backgroundColor = Labels[i, j].Background;
+                    var color = ((SolidColorBrush)backgroundColor).Color.ToString();
+                    if (color != new SolidColorBrush(Colors.White).ToString())
+                        Labels[i, j].Background = new SolidColorBrush(Colors.White);
+                }
+            }
+        }
+
+        private void Clearbtn_Click(object sender, RoutedEventArgs e)
+        {
+            Clear();
         }
     }
 }
