@@ -193,6 +193,11 @@ namespace ProjectHosh
 
         private void Clear()
         {
+            HandyPattern = false;
+            SelectRed = true;
+            SelectGreen = true;
+            Success = false;
+
             for (int i = 1; i < 19; i++)
             {
                 for (int j = 1; j < 29; j++)
@@ -219,7 +224,7 @@ namespace ProjectHosh
             visitedQueue.Enqueue(Labels[i, j]);
             Brush backgroundColor;
             string color;
-            do
+            while (true)
             {
                 backgroundColor = Labels[i - 1, j].Background;
                 color = ((SolidColorBrush)backgroundColor).Color.ToString();
@@ -281,6 +286,8 @@ namespace ProjectHosh
                     break;
                 }
 
+                if (waitingQueue.Count == 0)
+                    break;
                 var temp = waitingQueue.Dequeue();
                 while (true)
                 {
@@ -294,7 +301,7 @@ namespace ProjectHosh
                 var x = currentPosition.Split(',');
                 i = Convert.ToInt32(x[0]);
                 j = Convert.ToInt32(x[1]);
-            } while (waitingQueue.Count > 0);
+            }
 
             if (Success)
             {
@@ -315,11 +322,6 @@ namespace ProjectHosh
                     j = Convert.ToInt32(x[3]);
                 }
             }
-            else
-            {
-                MessageBox.Show("Could not find pass", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-
             foreach (Label lb in Labels)
             {
                 backgroundColor = lb.Background;
@@ -333,13 +335,17 @@ namespace ProjectHosh
             timer.Stop();
             TimeLb.Content = timer.ElapsedMilliseconds + "  ms";
             OpenNodesLb.Content = OpenNodes;
+            if (!Success)
+                MessageBox.Show("Couldn’t find pass", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void DFS_Algoritm()
+        {
+
         }
 
         private void Clearbtn_Click(object sender, RoutedEventArgs e)
         {
-            HandyPattern = false;
-            SelectRed = true;
-            SelectGreen = true;
             Clear();
         }
 
@@ -348,9 +354,12 @@ namespace ProjectHosh
             HandyPattern = false;
             SelectRed = true;
             SelectGreen = true;
+            Success=false;
 
             if (combobox.SelectedIndex == 0)
                 BFS_Algoritm();
+            if (combobox.SelectedIndex == 1)
+                DFS_Algoritm();
         }
 
         private void HandyPatternbtn_Click(object sender, RoutedEventArgs e)
