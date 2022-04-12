@@ -23,6 +23,7 @@ namespace ProjectHosh
         #region LocalVariable
         Label[,] Labels;
         int[] StartPosition;
+        int OpenNodes;
         bool Success;
         bool HandyPattern;
         bool SelectRed;
@@ -33,10 +34,11 @@ namespace ProjectHosh
             InitializeComponent();
             Labels = new Label[20, 30];
             StartPosition = new int[2];
+            OpenNodes = 0;
             Success = false;
             HandyPattern = false;
             SelectRed = true;
-            SelectGreen= true;
+            SelectGreen = true;
             MakeMap();
         }
 
@@ -129,6 +131,8 @@ namespace ProjectHosh
                     if (SelectRed)
                     {
                         temp.Background = new SolidColorBrush(Colors.Red);
+                        StartPosition[0] = Grid.GetRow(temp);
+                        StartPosition[1] = Grid.GetColumn(temp);
                         SelectRed = false;
                     }
                     else if (SelectGreen)
@@ -196,22 +200,29 @@ namespace ProjectHosh
                     var backgroundColor = Labels[i, j].Background;
                     var color = ((SolidColorBrush)backgroundColor).Color.ToString();
                     if (color != new SolidColorBrush(Colors.White).ToString())
+                    {
                         Labels[i, j].Background = new SolidColorBrush(Colors.White);
+                        Labels[i, j].Content = null;
+                    }
                 }
             }
         }
 
         private void BFS_Algoritm()
         {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            OpenNodes = 0;
             Queue<Label> waitingQueue = new Queue<Label>();
             Queue<Label> visitedQueue = new Queue<Label>();
             int i = StartPosition[0];
             int j = StartPosition[1];
             visitedQueue.Enqueue(Labels[i, j]);
-            var backgroundColor = Labels[i - 1, j].Background;
-            var color = ((SolidColorBrush)backgroundColor).Color.ToString();
+            Brush backgroundColor;
+            string color;
             do
             {
+                backgroundColor = Labels[i - 1, j].Background;
+                color = ((SolidColorBrush)backgroundColor).Color.ToString();
                 // Top
                 if (color == new SolidColorBrush(Colors.White).ToString())
                 {
@@ -221,7 +232,6 @@ namespace ProjectHosh
                 }
                 else if (color == new SolidColorBrush(Colors.Green).ToString())
                 {
-                    visitedQueue.Enqueue(Labels[i, j]);
                     Success = true;
                     break;
                 }
@@ -237,7 +247,6 @@ namespace ProjectHosh
                 }
                 else if (color == new SolidColorBrush(Colors.Green).ToString())
                 {
-                    visitedQueue.Enqueue(Labels[i, j]);
                     Success = true;
                     break;
                 }
@@ -253,7 +262,6 @@ namespace ProjectHosh
                 }
                 else if (color == new SolidColorBrush(Colors.Green).ToString())
                 {
-                    visitedQueue.Enqueue(Labels[i, j]);
                     Success = true;
                     break;
                 }
@@ -269,12 +277,11 @@ namespace ProjectHosh
                 }
                 else if (color == new SolidColorBrush(Colors.Green).ToString())
                 {
-                    visitedQueue.Enqueue(Labels[i, j]);
                     Success = true;
                     break;
                 }
 
-                var temp = waitingQueue.Dequeue(); 
+                var temp = waitingQueue.Dequeue();
                 while (true)
                 {
                     if (visitedQueue.Contains(temp))
@@ -292,31 +299,40 @@ namespace ProjectHosh
             if (Success)
             {
                 int counter = 1;
-                var currentPosition = visitedQueue.Dequeue().Content.ToString();
-                var x = currentPosition.Split(',');
+                var currentPosition = Labels[i, j].Content.ToString();
+                string[] x;
                 while (true)
                 {
-                    i = Convert.ToInt32(x[2]);
-                    j = Convert.ToInt32(x[3]);
-                    if (i == StartPosition[0]&& j == StartPosition[1])
+                    if (i == StartPosition[0] && j == StartPosition[1])
                         break;
+                    OpenNodes++;
                     Labels[i, j].Background = new SolidColorBrush(Colors.LightBlue);
+                    currentPosition = Labels[i, j].Content.ToString();
                     Labels[i, j].Content = counter;
                     counter++;
-                    currentPosition = Labels[i,j].Content.ToString();
                     x = currentPosition.Split(',');
+                    i = Convert.ToInt32(x[2]);
+                    j = Convert.ToInt32(x[3]);
                 }
             }
+            else
+            {
+                MessageBox.Show("Could not find pass", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
 
-            foreach(Label lb in Labels)
+            foreach (Label lb in Labels)
             {
                 backgroundColor = lb.Background;
                 color = ((SolidColorBrush)backgroundColor).Color.ToString();
                 if (color == new SolidColorBrush(Colors.LightPink).ToString())
                 {
+                    OpenNodes++;
                     lb.Content = null;
                 }
             }
+            timer.Stop();
+            TimeLb.Content = timer.ElapsedMilliseconds + "  ms";
+            OpenNodesLb.Content = OpenNodes;
         }
 
         private void Clearbtn_Click(object sender, RoutedEventArgs e)
@@ -333,7 +349,7 @@ namespace ProjectHosh
             SelectRed = true;
             SelectGreen = true;
 
-            if (combobox.SelectedIndex==0)
+            if (combobox.SelectedIndex == 0)
                 BFS_Algoritm();
         }
 
