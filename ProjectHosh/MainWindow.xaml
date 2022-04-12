@@ -5,26 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectHosh"
         mc:Ignorable="d"
-        Title="Search Algoritm" Height="750" Width="850"
+        Title="Search Algoritm" Height="800" Width="920"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <Grid Background="SlateGray">
         <Grid x:Name="Map" Margin="0,0,0,200">
 
         </Grid>
-        <Button x:Name="GeneratePatternbtn" Content="Generate Pattern" FontSize="18" HorizontalAlignment="Left" Margin="14,565,0,0" VerticalAlignment="Top" Height="60" Width="150" Click="GeneratePatternbtn_Click"/>
-        <Button x:Name="HandyPatternbtn" Content="Handy Pattern" FontSize="18" HorizontalAlignment="Left" Margin="14,646,0,0" VerticalAlignment="Top" Height="60" Width="150" Click="HandyPatternbtn_Click"/>
-        <Button x:Name="Clearbtn" Content="Clear" FontSize="20" HorizontalAlignment="Left" Margin="174,646,0,0" VerticalAlignment="Top" Height="60" Width="80" Click="Clearbtn_Click"/>
-        <Button x:Name="Searchbtn" Content="Search" FontSize="20" HorizontalAlignment="Left" Margin="174,565,0,0" VerticalAlignment="Top" Height="60" Width="80" Click="Searchbtn_Click"/>
-        <Label Content="Select Algoritm" FontSize="20" HorizontalAlignment="Left" Margin="277,568,0,0" VerticalAlignment="Top" Height="40" Width="144"/>
-        <ComboBox x:Name="combobox" FontSize="25" HorizontalAlignment="Left" Margin="277,616,0,0" VerticalAlignment="Top" Width="144" Height="41">
+        <Button x:Name="GeneratePatternbtn" Content="Generate Pattern" FontSize="18" HorizontalAlignment="Left" Margin="10,609,0,0" VerticalAlignment="Top" Height="60" Width="150" Click="GeneratePatternbtn_Click"/>
+        <Button x:Name="HandyPatternbtn" Content="Handy Pattern" FontSize="18" HorizontalAlignment="Left" Margin="10,692,0,0" VerticalAlignment="Top" Height="60" Width="150" Click="HandyPatternbtn_Click"/>
+        <Button x:Name="Clearbtn" Content="Clear" FontSize="20" HorizontalAlignment="Left" Margin="174,692,0,0" VerticalAlignment="Top" Height="60" Width="80" Click="Clearbtn_Click"/>
+        <Button x:Name="Searchbtn" Content="Search" FontSize="20" HorizontalAlignment="Left" Margin="174,611,0,0" VerticalAlignment="Top" Height="60" Width="80" Click="Searchbtn_Click"/>
+        <Label Content="Select Algoritm :" FontSize="20" HorizontalAlignment="Left" Margin="278,611,0,0" VerticalAlignment="Top" Height="40" Width="160"/>
+        <ComboBox x:Name="combobox" FontSize="25" HorizontalAlignment="Left" Margin="460,611,0,0" VerticalAlignment="Top" Width="140" Height="41" RenderTransformOrigin="0.523,0.586">
             <ComboBoxItem Content="BFS" IsSelected="True"/>
             <ComboBoxItem Content="DFS"/>
             <ComboBoxItem Content="A*"/>
         </ComboBox>
-        <Label Content="Time of Execution : " FontSize="20" HorizontalAlignment="Left" Margin="444,565,0,0" VerticalAlignment="Top" Height="50" Width="180"/>
-        <Label x:Name="OpenNodesLb" FontSize="20" HorizontalAlignment="Left" Margin="641,646,0,0" VerticalAlignment="Top" Height="50" Width="70" RenderTransformOrigin="1.21,0.345"/>
-        <Label Content="Opened Nodes : " FontSize="20" HorizontalAlignment="Left" Margin="444,646,0,0" VerticalAlignment="Top" Height="50" Width="180"/>
-        <Label x:Name="TimeLb" FontSize="20" HorizontalAlignment="Left" Margin="641,558,0,0" VerticalAlignment="Top" Height="50" Width="70"/>
+        <Label Content="Time of Execution : " FontSize="20" HorizontalAlignment="Left" Margin="616,609,0,0" VerticalAlignment="Top" Height="50" Width="180"/>
+        <Label x:Name="OpenNodesLb" FontSize="20" HorizontalAlignment="Left" Margin="835,692,0,0" VerticalAlignment="Top" Height="50" Width="70" RenderTransformOrigin="1.21,0.345"/>
+        <Label Content="Opened Nodes : " FontSize="20" HorizontalAlignment="Left" Margin="616,697,0,0" VerticalAlignment="Top" Height="50" Width="180"/>
+        <Label x:Name="TimeLb" FontSize="20" HorizontalAlignment="Left" Margin="835,601,0,0" VerticalAlignment="Top" Height="50" Width="70" RenderTransformOrigin="1.384,0.442"/>
     </Grid>
 </Window>

@@ -40,6 +40,7 @@ namespace ProjectHosh
             SelectRed = true;
             SelectGreen = true;
             MakeMap();
+            Searchbtn.IsEnabled = false;
         }
 
         private void MakeMap()
@@ -143,6 +144,7 @@ namespace ProjectHosh
                     else
                     {
                         temp.Background = new SolidColorBrush(Colors.Black);
+                        Searchbtn.IsEnabled = true;
                     }
                 }
             }
@@ -189,14 +191,16 @@ namespace ProjectHosh
                     t--;
                 }
             }
+
+            Searchbtn.IsEnabled = true;
         }
 
         private void Clear()
         {
+            Searchbtn.IsEnabled = false;
             HandyPattern = false;
             SelectRed = true;
             SelectGreen = true;
-            Success = false;
 
             for (int i = 1; i < 19; i++)
             {
@@ -215,8 +219,9 @@ namespace ProjectHosh
 
         private void BFS_Algoritm()
         {
-            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Success = false;
             OpenNodes = 0;
+            var timer = System.Diagnostics.Stopwatch.StartNew();
             Queue<Label> waitingQueue = new Queue<Label>();
             Queue<Label> visitedQueue = new Queue<Label>();
             int i = StartPosition[0];
@@ -305,21 +310,24 @@ namespace ProjectHosh
 
             if (Success)
             {
-                int counter = 1;
-                var currentPosition = Labels[i, j].Content.ToString();
-                string[] x;
-                while (true)
+                if (i != StartPosition[0] && j != StartPosition[1])
                 {
-                    if (i == StartPosition[0] && j == StartPosition[1])
-                        break;
-                    OpenNodes++;
-                    Labels[i, j].Background = new SolidColorBrush(Colors.LightBlue);
-                    currentPosition = Labels[i, j].Content.ToString();
-                    Labels[i, j].Content = counter;
-                    counter++;
-                    x = currentPosition.Split(',');
-                    i = Convert.ToInt32(x[2]);
-                    j = Convert.ToInt32(x[3]);
+                    int counter = 1;
+                    var currentPosition = Labels[i, j].Content.ToString();
+                    string[] x;
+                    while (true)
+                    {
+                        if (i == StartPosition[0] && j == StartPosition[1])
+                            break;
+                        Labels[i, j].Background = new SolidColorBrush(Colors.LightBlue);
+                        currentPosition = Labels[i, j].Content.ToString();
+                        Labels[i, j].Content = counter;
+                        counter++;
+                        OpenNodes++;
+                        x = currentPosition.Split(',');
+                        i = Convert.ToInt32(x[2]);
+                        j = Convert.ToInt32(x[3]);
+                    }
                 }
             }
             foreach (Label lb in Labels)
@@ -341,7 +349,126 @@ namespace ProjectHosh
 
         private void DFS_Algoritm()
         {
-
+            Success = false;
+            OpenNodes = 0;
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Stack<Label> road = new Stack<Label>();
+            int i = StartPosition[0];
+            int j = StartPosition[1];
+            Brush backgroundColor;
+            string color;
+            while (true)
+            {
+                backgroundColor = Labels[i - 1, j].Background;
+                color = ((SolidColorBrush)backgroundColor).Color.ToString();
+                // Top
+                if (color == new SolidColorBrush(Colors.White).ToString())
+                {
+                    road.Push(Labels[i, j]);
+                    i--;
+                    Labels[i, j].Background = new SolidColorBrush(Colors.LightPink);
+                }
+                else if (color == new SolidColorBrush(Colors.Green).ToString())
+                {
+                    road.Push(Labels[i, j]);
+                    Success = true;
+                    break;
+                }
+                else
+                {
+                    // Right
+                    backgroundColor = Labels[i, j + 1].Background;
+                    color = ((SolidColorBrush)backgroundColor).Color.ToString();
+                    if (color == new SolidColorBrush(Colors.White).ToString())
+                    {
+                        road.Push(Labels[i, j]);
+                        j++;
+                        Labels[i, j].Background = new SolidColorBrush(Colors.LightPink);
+                    }
+                    else if (color == new SolidColorBrush(Colors.Green).ToString())
+                    {
+                        road.Push(Labels[i, j]);
+                        Success = true;
+                        break;
+                    }
+                    else
+                    {
+                        // Bottom
+                        backgroundColor = Labels[i + 1, j].Background;
+                        color = ((SolidColorBrush)backgroundColor).Color.ToString();
+                        if (color == new SolidColorBrush(Colors.White).ToString())
+                        {
+                            road.Push(Labels[i, j]);
+                            i++;
+                            Labels[i, j].Background = new SolidColorBrush(Colors.LightPink);
+                        }
+                        else if (color == new SolidColorBrush(Colors.Green).ToString())
+                        {
+                            road.Push(Labels[i, j]);
+                            Success = true;
+                            break;
+                        }
+                        else
+                        {
+                            // Left
+                            backgroundColor = Labels[i, j - 1].Background;
+                            color = ((SolidColorBrush)backgroundColor).Color.ToString();
+                            if (color == new SolidColorBrush(Colors.White).ToString())
+                            {
+                                road.Push(Labels[i, j]);
+                                j--;
+                                Labels[i, j].Background = new SolidColorBrush(Colors.LightPink);
+                            }
+                            else if (color == new SolidColorBrush(Colors.Green).ToString())
+                            {
+                                road.Push(Labels[i, j]);
+                                Success = true;
+                                break;
+                            }
+                            else
+                            {
+                                if (road.Count == 0) // in bara inke agar be startposition back zad do halat be vojod miad.ya be ye 
+                                    break;  //jahat dige mire ya am ke 4 tarafsh ro test karde va javabi peida nakarde;
+                                var item = road.Pop();
+                                i = Grid.GetRow(item);
+                                j = Grid.GetColumn(item);
+                            }
+                        }
+                    }
+                }
+            }
+            if (Success)
+            {
+                int counter = road.Count - 1;
+                Label item;
+                while (true)
+                {
+                    item = road.Pop();
+                    i = Grid.GetRow(item);
+                    j = Grid.GetColumn(item);
+                    if (i == StartPosition[0] && j == StartPosition[1])
+                        break;
+                    Labels[i, j].Background = new SolidColorBrush(Colors.LightBlue);
+                    Labels[i, j].Content = counter;
+                    counter--;
+                    OpenNodes++;
+                }
+            }
+            foreach (Label lb in Labels)
+            {
+                backgroundColor = lb.Background;
+                color = ((SolidColorBrush)backgroundColor).Color.ToString();
+                if (color == new SolidColorBrush(Colors.LightPink).ToString())
+                {
+                    OpenNodes++;
+                    lb.Content = null;
+                }
+            }
+            timer.Stop();
+            TimeLb.Content = timer.ElapsedMilliseconds + "  ms";
+            OpenNodesLb.Content = OpenNodes;
+            if (!Success)
+                MessageBox.Show("Couldn’t find pass", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Clearbtn_Click(object sender, RoutedEventArgs e)
@@ -354,7 +481,6 @@ namespace ProjectHosh
             HandyPattern = false;
             SelectRed = true;
             SelectGreen = true;
-            Success=false;
 
             if (combobox.SelectedIndex == 0)
                 BFS_Algoritm();
